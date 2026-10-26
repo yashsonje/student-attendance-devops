@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Attendance Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="{{ url_for('index') }}" class="brand-logo">
+                <span class="logo-icon">&#128218;</span> AttendanceOps
+            </a>
+            <nav class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-item">Dashboard</a>
+                <a href="{{ url_for('students') }}" class="nav-item">Students</a>
+                <a href="{{ url_for('mark_attendance') }}" class="nav-item">Mark Attendance</a>
+                <a href="{{ url_for('attendance_records') }}" class="nav-item">Records</a>
+                <a href="{{ url_for('metrics') }}" target="_blank" class="nav-item nav-badge">Metrics (/metrics)</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p><strong>Student Attendance Management System</strong> &bull; B.Tech Computer Engineering DevOps Mini-Project</p>
+            <p class="subtext">Powered by Flask, SQLite, Docker, Kubernetes & Prometheus</p>
+        </div>
+    </footer>
+</body>
+</html>

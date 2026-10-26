@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Mark Attendance - Student Attendance System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Mark Student Attendance</h2>
+</div>
+
+<!-- Date Selection Form -->
+<div class="card mb-4">
+    <form method="GET" action="{{ url_for('mark_attendance') }}" class="form-inline">
+        <label for="date-selector"><strong>Select Date:</strong></label>
+        <input 
+            type="date" 
+            id="date-selector" 
+            name="date" 
+            value="{{ selected_date }}" 
+            class="form-control date-input"
+            required
+        >
+        <button type="submit" class="btn btn-secondary">Load Attendance for Date</button>
+    </form>
+</div>
+
+<!-- Attendance Form -->
+<div class="card">
+    <div class="card-header-inline">
+        <div>
+            <h3>Attendance Sheet</h3>
+            <span class="subtext">Target Date: <strong>{{ selected_date }}</strong></span>
+        </div>
+        {% if students %}
+            <div class="btn-group-sm">
+                <button type="button" class="btn btn-outline-sm" onclick="setAllAttendance('Present')">&#9989; All Present</button>
+                <button type="button" class="btn btn-outline-sm" onclick="setAllAttendance('Absent')">&#10060; All Absent</button>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if students %}
+        <form method="POST" action="{{ url_for('mark_attendance') }}">
+            <input type="hidden" name="date" value="{{ selected_date }}">
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Roll Number</th>
+                            <th>Student Name</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td><strong>{{ student.roll_no }}</strong></td>
+                                <td>{{ student.name }}</td>
+                                <td class="text-center">
+                                    <div class="radio-toggle-group">
+                                        <label class="radio-label radio-present">
+                                            <input 
+                                                type="radio" 
+                                                name="status_{{ student.id }}" 
+                                                value="Present" 
+                                                {% if student.status == 'Present' %}checked{% endif %}
+                                                required
+                                            >
+                                            <span>Present</span>
+                                        </label>
+                                        <label class="radio-label radio-absent">
+                                            <input 
+                                                type="radio" 
+                                                name="status_{{ student.id }}" 
+                                                value="Absent" 
+                                                {% if student.status == 'Absent' %}checked{% endif %}
+                                                required
+                                            >
+                                            <span>Absent</span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-footer mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">&#128190; Save Attendance</button>
+                <a href="{{ url_for('attendance_records', date=selected_date) }}" class="btn btn-outline">View Saved Records</a>
+            </div>
+        </form>
+    {% else %}
+        <div class="empty-state">
+            <p>No students found in the database.</p>
+            <p class="subtext"><a href="{{ url_for('students') }}" class="btn btn-primary mt-2">+ Register Students First</a></p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function setAllAttendance(status) {
+    const radios = document.querySelectorAll(`input[type="radio"][value="${status}"]`);
+    radios.forEach(radio => {
+        radio.checked = true;
+    });
+}
+</script>
+{% endblock %}

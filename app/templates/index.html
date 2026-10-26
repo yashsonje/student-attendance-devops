@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Student Attendance System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Dashboard Overview</h2>
+    <span class="badge badge-info">Date: {{ today }}</span>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">&#128101;</div>
+        <div class="stat-details">
+            <h3>{{ total_students }}</h3>
+            <p>Total Registered Students</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">&#128197;</div>
+        <div class="stat-details">
+            <h3>{{ total_marked }}</h3>
+            <p>Marked Today</p>
+        </div>
+    </div>
+    <div class="stat-card stat-success">
+        <div class="stat-icon">&#9989;</div>
+        <div class="stat-details">
+            <h3>{{ present_count }}</h3>
+            <p>Present Today</p>
+        </div>
+    </div>
+    <div class="stat-card stat-danger">
+        <div class="stat-icon">&#10060;</div>
+        <div class="stat-details">
+            <h3>{{ absent_count }}</h3>
+            <p>Absent Today</p>
+        </div>
+    </div>
+</div>
+
+<div class="quick-actions-card">
+    <h3>Quick Actions</h3>
+    <div class="actions-group">
+        <a href="{{ url_for('students') }}" class="btn btn-primary">+ Add New Student</a>
+        <a href="{{ url_for('mark_attendance') }}" class="btn btn-secondary">&#9998; Mark Today's Attendance</a>
+        <a href="{{ url_for('attendance_records') }}" class="btn btn-outline">&#128220; View Attendance Records</a>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <h3>Recent Attendance Activity</h3>
+    {% if recent_attendance %}
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Roll No</th>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in recent_attendance %}
+                        <tr>
+                            <td>{{ row.date }}</td>
+                            <td><strong>{{ row.roll_no }}</strong></td>
+                            <td>{{ row.name }}</td>
+                            <td>
+                                {% if row.status == 'Present' %}
+                                    <span class="pill pill-present">Present</span>
+                                {% else %}
+                                    <span class="pill pill-absent">Absent</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="empty-state">No attendance records found yet. Click <strong>Mark Today's Attendance</strong> to get started.</p>
+    {% endif %}
+</div>
+{% endblock %}

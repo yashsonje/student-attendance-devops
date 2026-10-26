@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Students - Student Attendance System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Manage Students</h2>
+</div>
+
+<div class="grid-2-col">
+    <!-- Add Student Form -->
+    <div class="card">
+        <h3>Add New Student</h3>
+        <p class="card-subtitle">Register a new student with a unique roll number.</p>
+        <form method="POST" action="{{ url_for('students') }}" class="form-standard">
+            <div class="form-group">
+                <label for="roll_no">Roll Number <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="roll_no" 
+                    name="roll_no" 
+                    class="form-control" 
+                    placeholder="e.g. CS2026-001" 
+                    required 
+                    maxlength="20"
+                    autocomplete="off"
+                >
+            </div>
+            <div class="form-group">
+                <label for="name">Student Name <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    class="form-control" 
+                    placeholder="e.g. John Doe" 
+                    required 
+                    maxlength="100"
+                    autocomplete="off"
+                >
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">+ Add Student</button>
+        </form>
+    </div>
+
+    <!-- Student List -->
+    <div class="card">
+        <div class="card-header-inline">
+            <h3>Registered Students</h3>
+            <span class="badge badge-primary">{{ students|length }} Students</span>
+        </div>
+
+        {% if students %}
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Roll Number</th>
+                            <th>Student Name</th>
+                            <th>Registered On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><strong>{{ student.roll_no }}</strong></td>
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.created_at[:10] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>No students registered yet.</p>
+                <p class="subtext">Use the form on the left to add your first student.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

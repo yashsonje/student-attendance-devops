@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance Records - Student Attendance System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Attendance Records</h2>
+</div>
+
+<!-- Filter Box -->
+<div class="card mb-4">
+    <form method="GET" action="{{ url_for('attendance_records') }}" class="form-inline">
+        <label for="filter-date"><strong>Filter by Date:</strong></label>
+        <input 
+            type="date" 
+            id="filter-date" 
+            name="date" 
+            value="{{ selected_date }}" 
+            class="form-control date-input"
+        >
+        <button type="submit" class="btn btn-primary">Filter Records</button>
+        {% if selected_date %}
+            <a href="{{ url_for('attendance_records') }}" class="btn btn-outline">Clear Filter</a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header-inline">
+        <h3>
+            {% if selected_date %}
+                Records for {{ selected_date }}
+            {% else %}
+                All Recent Records (Latest 100)
+            {% endif %}
+        </h3>
+        <span class="badge badge-primary">{{ records|length }} Records</span>
+    </div>
+
+    {% if records %}
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Roll No</th>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                        <th>Recorded At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in records %}
+                        <tr>
+                            <td>{{ row.date }}</td>
+                            <td><strong>{{ row.roll_no }}</strong></td>
+                            <td>{{ row.name }}</td>
+                            <td>
+                                {% if row.status == 'Present' %}
+                                    <span class="pill pill-present">&#10004; Present</span>
+                                {% else %}
+                                    <span class="pill pill-absent">&#10008; Absent</span>
+                                {% endif %}
+                            </td>
+                            <td><small class="subtext">{{ row.recorded_at }}</small></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>No attendance records found{% if selected_date %} for {{ selected_date }}{% endif %}.</p>
+            <p class="subtext"><a href="{{ url_for('mark_attendance') }}" class="btn btn-primary mt-2">&#9998; Mark Attendance Now</a></p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
