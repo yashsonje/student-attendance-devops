@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Commands Cheat Sheet - Student Attendance System</title>
+    <style>
+        body {
+            font-family: Calibri, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.5;
+            color: #222;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #1e3a8a;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 8px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #1e40af;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 4px;
+        }
+        .header-meta {
+            background-color: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 8px 0 16px 0;
+            line-height: 1.4;
+        }
+        .comment {
+            color: #94a3b8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #334155;
+            font-weight: 600;
+        }
+        .note {
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        @media print {
+            body { margin: 10mm; }
+            pre { background-color: #f8fafc; color: #0f172a; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student Attendance Management System — DevOps Command Sheet 📜</h1>
+    
+    <div class="header-meta">
+        <strong>Project Folder:</strong> <code>C:\Users\Yash\OneDrive\Desktop\devops project</code><br>
+        <strong>Author:</strong> Yash Sonje (B.Tech Computer Engineering)<br>
+        <strong>GitHub Repository:</strong> <a href="https://github.com/yashsonje/student-attendance-devops">https://github.com/yashsonje/student-attendance-devops</a>
+    </div>
+
+    <h2>1. Preparation & Local Flask Application (FA1)</h2>
+    <pre><code># 1. Navigate to the project directory
+cd "C:\Users\Yash\OneDrive\Desktop\devops project"
+
+# 2. Activate Python virtual environment
+.\.venv\Scripts\Activate.ps1
+
+# 3. Run all 9 automated Pytest test cases
+pytest -v
+
+# 4. Start the Flask application locally
+python -m app.app</code></pre>
+    <div class="note"><strong>Local Web URLs:</strong> App: <code>http://localhost:5000</code> | Health: <code>http://localhost:5000/healthz</code> | Metrics: <code>http://localhost:5000/metrics</code></div>
+
+    <h2>2. Docker Containerization (FA2)</h2>
+    <pre><code># 1. Build the Docker container image
+docker build -t student-attendance:v1 .
+
+# 2. Run the container with persistent storage
+docker run -d --name student-attendance-app -p 5000:5000 -v attendance-data:/app/data student-attendance:v1
+
+# 3. Verify container is healthy
+docker ps
+
+# 4. View container logs
+docker logs student-attendance-app
+
+# 5. Stop the standalone container (frees port 5000 for Kubernetes)
+docker rm -f student-attendance-app</code></pre>
+
+    <h2>3. Kubernetes Deployment & Orchestration (FA2)</h2>
+    <pre><code># 1. Verify that your Kubernetes cluster is active
+kubectl get nodes
+
+# 2. Apply all Kubernetes YAML manifests (PVC, Deployment, Service)
+kubectl apply -f k8s/pvc.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+
+# 3. Verify Pod (1/1 Running), PVC (Bound), and Service (NodePort)
+kubectl get pods,pvc,svc
+
+# 4. Inspect live Kubernetes pod logs
+kubectl logs -l app=student-attendance
+
+# 5. Forward port 5000 to browser
+kubectl port-forward svc/student-attendance-service 5000:5000</code></pre>
+
+    <h2>4. Monitoring with Prometheus & Grafana (FA2)</h2>
+    <pre><code># 1. Start Prometheus & Grafana containers
+docker compose -f monitoring/docker-compose.monitoring.yml up -d
+
+# 2. Verify monitoring containers are running
+docker ps --filter "name=attendance-"
+
+# 3. Stop monitoring stack when demo finishes
+docker compose -f monitoring/docker-compose.monitoring.yml down</code></pre>
+
+    <h2>5. Quick Reference: Demonstration URLs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Component</th>
+                <th>URL</th>
+                <th>Credentials / What to Show</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Web Application</strong></td>
+                <td>http://localhost:5000</td>
+                <td>Dashboard, Add Student, Mark Attendance</td>
+            </tr>
+            <tr>
+                <td><strong>Health Check</strong></td>
+                <td>http://localhost:5000/healthz</td>
+                <td>JSON: <code>{"status": "healthy"}</code></td>
+            </tr>
+            <tr>
+                <td><strong>Prometheus Metrics</strong></td>
+                <td>http://localhost:5000/metrics</td>
+                <td>Live OpenMetrics exposition</td>
+            </tr>
+            <tr>
+                <td><strong>Prometheus UI</strong></td>
+                <td>http://localhost:9090</td>
+                <td>Status > Targets (UP), query <code>attendance_students_total</code></td>
+            </tr>
+            <tr>
+                <td><strong>Grafana Dashboard</strong></td>
+                <td>http://localhost:3000</td>
+                <td>User: <code>admin</code> / Password: <code>admin</code></td>
+            </tr>
+            <tr>
+                <td><strong>GitHub Actions CI</strong></td>
+                <td>https://github.com/yashsonje/student-attendance-devops/actions</td>
+                <td>Cloud runner with 9 passing Pytest tests</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Tear Down Commands (After Viva)</h2>
+    <pre><code># Remove Kubernetes resources
+kubectl delete -f k8s/service.yaml -f k8s/deployment.yaml -f k8s/pvc.yaml
+
+# Stop Docker Compose monitoring
+docker compose -f monitoring/docker-compose.monitoring.yml down</code></pre>
+
+</body>
+</html>
