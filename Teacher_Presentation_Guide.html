@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Presentation & Viva Guide - Student Attendance DevOps Project</title>
+    <style>
+        body {
+            font-family: Calibri, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #1e3a8a;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 8px;
+            font-size: 26px;
+        }
+        h2 {
+            color: #1e40af;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            font-size: 19px;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 4px;
+        }
+        h3 {
+            color: #2563eb;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .header-meta {
+            background-color: #f1f5f9;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .flow-step {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .flow-label {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            font-weight: bold;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid #cbd5e1;
+        }
+        .flow-desc {
+            background-color: #f8fafc;
+            padding: 12px 16px;
+        }
+        .callout-say {
+            background-color: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 12px 16px;
+            margin: 15px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .callout-demo {
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+            padding: 12px 16px;
+            margin: 15px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .qa-box {
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        .qa-box strong {
+            color: #1e40af;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+        @media print {
+            body { margin: 10mm; }
+            .qa-box { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student Attendance Management System 🎓</h1>
+    <h3 style="color: #64748b; margin-top: -10px;">Teacher Presentation & Viva Master Guide</h3>
+
+    <div class="header-meta">
+        <strong>Project:</strong> DevOps Mini-Project (B.Tech Computer Engineering)<br>
+        <strong>Author:</strong> Yash Sonje<br>
+        <strong>GitHub Repository:</strong> <a href="https://github.com/yashsonje/student-attendance-devops">https://github.com/yashsonje/student-attendance-devops</a>
+    </div>
+
+    <h2>1. What Is This Project? (The Simple Explanation)</h2>
+    <p>
+        In simple terms, this project is a complete <strong>Student Attendance Management System</strong> where teachers can register students, 
+        mark daily attendance (Present/Absent), and search attendance history.
+    </p>
+    <p>
+        However, the real core of this project is the <strong>DevOps automation pipeline</strong> built around it:
+        Instead of running the application manually, every phase — testing, cloud integration, container packaging, deployment, persistent data storage, 
+        and health monitoring — is automated using industry-standard tools.
+    </p>
+
+    <div class="callout-say">
+        <strong>🗣️ How to Open Your Presentation (30-Second Pitch):</strong><br>
+        <em>"Good morning Sir/Ma'am. My DevOps project is a Student Attendance Management System. 
+        Rather than simply running code locally, I built an end-to-end DevOps pipeline: 
+        The Flask and SQLite application is automatically tested using Pytest, continuously integrated on GitHub Actions on every push, 
+        packaged into a secure non-root Docker container, deployed to Kubernetes with persistent storage, and monitored in real-time with Prometheus and Grafana."</em>
+    </div>
+
+    <h2>2. Visual DevOps Lifecycle (Flowchart)</h2>
+    <div class="flow-container">
+        <div class="flow-step">
+            <div class="flow-label">1. Code & UI (FA1)</div>
+            <div class="flow-desc">Python Flask backend, HTML5/CSS3 frontend, and embedded SQLite database with foreign keys and unique constraints.</div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-label">2. Automated Tests (FA1)</div>
+            <div class="flow-desc">Pytest test suite executing 9 unit and integration tests covering database isolation, validation rules, upserts, and endpoints.</div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-label">3. Cloud CI Pipeline (FA1)</div>
+            <div class="flow-desc">GitHub Actions CI pipeline automatically spins up an Ubuntu cloud virtual machine on every git push to test the code.</div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-label">4. Docker Container (FA2)</div>
+            <div class="flow-desc">Dockerfile packages the app into <code>student-attendance:v1</code> running as unprivileged <code>appuser</code> with built-in health checks.</div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-label">5. Kubernetes Orchestration (FA2)</div>
+            <div class="flow-desc">Kubernetes Deployment manages 1 replica with probes, NodePort Service routes port 30080, and PVC protects SQLite data across pod restarts.</div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-label">6. Observability (FA2)</div>
+            <div class="flow-desc">Prometheus periodically scrapes <code>/metrics</code> every 10s; Grafana provides real-time visual dashboards for latency and request rates.</div>
+        </div>
+    </div>
+
+    <h2>3. FA1 vs FA2 Breakdown</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Phase</th>
+                <th>Components Included</th>
+                <th>What It Proves to the Examiner</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>FA1: Application & Testing</strong></td>
+                <td>Flask Backend, HTML/CSS UI, SQLite DB, 9 Pytest tests, Git repository, GitHub Actions CI</td>
+                <td>Proves you can design a functional application, enforce database schema rules, write automated tests, and run automated CI in the cloud on every git push.</td>
+            </tr>
+            <tr>
+                <td><strong>FA2: DevOps Deployment & Monitoring</strong></td>
+                <td>Docker container (non-root), Kubernetes Deployment, NodePort Service, PVC storage, Prometheus, Grafana</td>
+                <td>Proves you can containerize software securely, deploy and manage it inside a Kubernetes cluster with persistent data, and monitor system health.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Live Demonstration Script (Step-by-Step)</h2>
+
+    <div class="callout-demo">
+        <h3>Step 1: Demonstrate the Live Web App (FA1)</h3>
+        <strong>Action:</strong> Open <code>http://localhost:5000</code> in your browser.<br>
+        <strong>What to Say:</strong> <em>"Here is the attendance dashboard. Let me add a student with Roll CS-101 and Name Rahul Sharma. 
+        If I try to add CS-101 again, notice the red flash alert preventing duplicates. 
+        Now under Mark Attendance, I can select the date, click 'All Present', and save it to our database."</em>
+    </div>
+
+    <div class="callout-demo">
+        <h3>Step 2: Demonstrate Automated Pytest Tests (FA1)</h3>
+        <strong>Action:</strong> Open terminal and run <code>pytest -v</code>.<br>
+        <strong>What to Say:</strong> <em>"We wrote 9 automated unit and integration tests covering database isolation, 
+        input validation edge cases, upserts, and endpoints. All 9 tests pass in under 2 seconds."</em>
+    </div>
+
+    <div class="callout-demo">
+        <h3>Step 3: Demonstrate GitHub Actions CI Pipeline (FA1)</h3>
+        <strong>Action:</strong> Open your GitHub repository &rarr; Actions tab.<br>
+        <strong>What to Say:</strong> <em>"On every git push, GitHub Actions automatically spins up an Ubuntu cloud runner, 
+        installs dependencies, and verifies our test suite before anything can be deployed."</em>
+    </div>
+
+    <div class="callout-demo">
+        <h3>Step 4: Demonstrate Kubernetes & Persistent Storage (FA2)</h3>
+        <strong>Action:</strong> In terminal, run <code>kubectl get pods,pvc,svc</code>.<br>
+        <strong>What to Say:</strong> <em>"Our application runs as a Kubernetes Pod (1/1 Running). Notice that the PVC attendance-data-pvc is Bound. 
+        Even if Kubernetes terminates or restarts this pod, our SQLite database file is permanently safe on the persistent disk."</em>
+    </div>
+
+    <div class="callout-demo">
+        <h3>Step 5: Demonstrate Real-Time Metrics & Prometheus (FA2)</h3>
+        <strong>Action:</strong> Open <code>http://localhost:5000/metrics</code> in your browser.<br>
+        <strong>What to Say:</strong> <em>"Our app natively exposes metrics at /metrics in OpenMetrics format. 
+        Prometheus scrapes this endpoint every 10 seconds to track student counts, HTTP throughput, and response latency."</em>
+    </div>
+
+    <h2>5. Top 5 Viva Questions & Answers</h2>
+
+    <div class="qa-box">
+        <p><strong>Q1: Why is the replica count strictly 1 in your Kubernetes deployment?</strong></p>
+        <p><strong>Answer:</strong> SQLite is an embedded single-file database that uses file-level locks. If multiple pods write to the same SQLite file simultaneously over network storage, file locking fails, causing <em>"database is locked"</em> errors or corruption. That is why we use 1 replica with ReadWriteOnce storage and a Recreate strategy. In production, for horizontal scaling (replicas > 1), we would migrate to PostgreSQL or MySQL.</p>
+    </div>
+
+    <div class="qa-box">
+        <p><strong>Q2: What is the difference between a Container and a Virtual Machine?</strong></p>
+        <p><strong>Answer:</strong> A Virtual Machine contains a full Guest Operating System running on top of a hypervisor, making it heavy and slow to boot. A Docker container shares the host OS kernel and packages only the application and its dependencies, making it lightweight, fast to start, and portable.</p>
+    </div>
+
+    <div class="qa-box">
+        <p><strong>Q3: What are Liveness and Readiness probes in Kubernetes?</strong></p>
+        <p><strong>Answer:</strong> A Readiness probe checks if the container is ready to accept incoming user traffic (if it fails, Kubernetes stops sending traffic to it). A Liveness probe checks if the container has frozen, deadlocked, or crashed (if it fails, Kubernetes automatically restarts the pod).</p>
+    </div>
+
+    <div class="qa-box">
+        <p><strong>Q4: Why does your Dockerfile run as an unprivileged user (appuser)?</strong></p>
+        <p><strong>Answer:</strong> This adheres to the Principle of Least Privilege for container security. If an attacker breaches the application, they cannot gain root privileges on the underlying host operating system.</p>
+    </div>
+
+    <div class="qa-box">
+        <p><strong>Q5: What is the difference between a Counter and a Gauge in Prometheus?</strong></p>
+        <p><strong>Answer:</strong> A Counter is a metric that can only increase or reset to zero (e.g., total HTTP requests). A Gauge is a metric that can go both up and down to reflect the current value (e.g., total number of registered students).</p>
+    </div>
+
+</body>
+</html>
